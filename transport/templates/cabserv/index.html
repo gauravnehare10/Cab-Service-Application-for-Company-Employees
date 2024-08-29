@@ -1,0 +1,54 @@
+{% extends "cabserv/layouts/main.html" %}
+{% load static %}
+{% block style %}<link rel="stylesheet" href="{% static 'css/index.css' %}">{% endblock style %}
+{% block content %}
+
+<!-- Header -->
+<div class="header" style="background-image:url('{% static "images/slider.png" %}')">
+    <h1>Welcome to Eaton Cab Service</h1>
+    <p>Exclusive cab services for our valued employees.</p>
+</div>
+
+<!-- Features Section -->
+<div class="container features">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="feature-box">
+                <img src="{% static "images/BookSym.png" %}" alt="Booking">
+                <h4>Easy Booking</h4>
+                <p>Book a ride with just a few clicks, tailored to your work schedule.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-box">
+                <img src="{% static "images/ReliabilitySym.png" %}" alt="Reliability">
+                <h4>Employee Safety</h4>
+                <p>Your safety is our priority, with monitored rides and verified drivers.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-box">
+                <img src="{% static "images/LimBook.png" %}" alt="Support">
+                <h4>Limited Time Slots</h4>
+                <p>Choose from our selected time slots that match the company's work schedule.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="cta">
+    <h2>Need a Ride? We're Here for You!</h2>
+    <a href="#">Book Now</a>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2024 Eaton Corporation plc. All rights reserved.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock content %}

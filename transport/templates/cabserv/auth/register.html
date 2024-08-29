@@ -1,0 +1,41 @@
+{% extends "cabserv/layouts/main.html" %}
+{% load static %}
+{% block style %}<link rel="stylesheet" href="{% static "css/register.css" %}">{% endblock style %}
+{% block content %}
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">{{form.username.label}}</label>
+                {{form.username}}
+                {% if form.errors.username %}
+                <span class="text-danger">{{form.errors.username}}</span>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="email">{{form.email.label}}</label>
+                {{form.email}}
+                {% if form.errors.email %}
+                    <span class="text-danger">{{form.errors.email}}</span>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="password1">Password</label>
+                {{form.password1}}
+                {% if form.errors.password1 %}
+                    <span class="text-danger">{{form.errors.password1}}</span>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="password2">Confirm Password:</label>
+                {{form.password2}}
+                {% if form.errors.password2 %}
+                    <span class="text-danger">{{form.errors.password2}}</span>
+                {% endif %}
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+{% endblock content %}
