@@ -3,6 +3,7 @@ from cabservice.models import *
 from cabservice.forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from datetime import date
 # Create your views here.
 
 def home(request):
@@ -67,5 +68,30 @@ def update_profile(request):
 def booking(request):
     if request.method == "GET":
         form = BookingForm()
-        print("hiii")
         return render(request, 'cabserv/booking.html', context={'form': form})
+    elif request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            employee = Employee.objects.get(user=request.user)
+            cab = form.cleaned_data['cab']
+            pickup_slot = form.cleaned_data['pickup_slot']
+            pincode = employee.postal_code
+            
+            existing_bookings = Booking.objects.filter(
+                employee__postal_code=pincode,
+                pickup_slot=pickup_slot,
+                booking_date = date.today()
+            ).count()
+            
+            if existing_bookings < 4:
+                booking = form.save(commit=False)
+                booking.employee = employee
+                booking.save()
+            
+            elif cab.availability_status != 'available':
+                print(f'Cab {cab.cab_number} is not available.')
+                return redirect('book')
+            else:
+                print(date.today())
+                print('No more than 4 employees can book a cab from the same area in the same time slot.')
+            return redirect('book')

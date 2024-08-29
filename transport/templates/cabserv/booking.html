@@ -21,7 +21,7 @@
         padding: 15px;
     }
     select{
-        width: 400px;
+        width: 500px;
         padding: 5px;
     }
     .button{
@@ -37,27 +37,28 @@
             Book a Ride
         </div>
         <div class="card-body">
-            <form>
-                <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
                 <table class="table table-bordered border-primary">
-                    <tr>
-                        <th>Cab :</th>
-                        <td>{{form.cab}}</td>
-                    </tr>
-                </div>
-                <div class="form-group">
-                    <tr>
-                        <th>Select Pickup Slot</th>
-                        <td>{{form.pickup_slot}}</td>
-                    </tr>
-                </div>
-                <div class="form-group">
-                    <tr>
-                        <th>Select Return Slot</th>
-                        <td>{{form.return_slot}}</td>
-                    </tr>
-                </div>
-            </table>
+                    <div class="form-group">    
+                        <tr>
+                            <th>Cab :</th>
+                            <td>{{form.cab}}</td>
+                        </tr>
+                    </div>
+                    <div class="form-group">
+                        <tr>
+                            <th>Select Pickup Slot</th>
+                            <td>{{form.pickup_slot}}</td>
+                        </tr>
+                    </div>
+                    <div class="form-group">
+                        <tr>
+                            <th>Select Return Slot</th>
+                            <td>{{form.return_slot}}</td>
+                        </tr>
+                    </div>
+                </table>
                 <input type="submit" value="Book Ride" class="btn btn-primary button">
             </form>
         </div>
