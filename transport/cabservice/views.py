@@ -48,9 +48,8 @@ def emp_profile(request):
 
 @login_required
 def update_profile(request):
-    employee, created = Employee.objects.get_or_create(user=request.user)
-    
     if request.method == 'POST':
+        employee, created = Employee.objects.get_or_create(user=request.user)
         form = EmpProfileForm(request.POST, instance=employee)
         if form.is_valid():
             employee = form.save(commit=False)
@@ -60,7 +59,7 @@ def update_profile(request):
         else:
             print(form.errors)
     else:
-        form = EmpProfileForm(instance=employee)
+        form = EmpProfileForm()
 
     return render(request, 'cabserv/profile/edit_prof.html', {'form': form})
 
@@ -72,26 +71,30 @@ def booking(request):
     elif request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
-            employee = Employee.objects.get(user=request.user)
-            cab = form.cleaned_data['cab']
-            pickup_slot = form.cleaned_data['pickup_slot']
-            pincode = employee.postal_code
-            
-            existing_bookings = Booking.objects.filter(
-                employee__postal_code=pincode,
-                pickup_slot=pickup_slot,
-                booking_date = date.today()
-            ).count()
-            
-            if existing_bookings < 4:
-                booking = form.save(commit=False)
-                booking.employee = employee
-                booking.save()
-            
-            elif cab.availability_status != 'available':
-                print(f'Cab {cab.cab_number} is not available.')
+            try:
+                employee = Employee.objects.get(user=request.user)
+                cab = form.cleaned_data['cab']
+                pickup_slot = form.cleaned_data['pickup_slot']
+                pincode = employee.postal_code
+                
+                existing_bookings = Booking.objects.filter(
+                    employee__postal_code=pincode,
+                    pickup_slot=pickup_slot,
+                    booking_date = date.today()
+                ).count()
+                
+                if cab.availability_status != 'available':
+                    print(f'Cab {cab.cab_number} is not available.')
+                    return redirect('book')
+                elif existing_bookings < 4:
+                    booking = form.save(commit=False)
+                    booking.employee = employee
+                    booking.save()
+                    msg = 'Cab Booked Successfully...'
+                
+                else:
+                    print(date.today())
+                    print('No more than 4 employees can book a cab from the same area in the same time slot.')
                 return redirect('book')
-            else:
-                print(date.today())
-                print('No more than 4 employees can book a cab from the same area in the same time slot.')
-            return redirect('book')
+            except:
+                return redirect('update_profile')
