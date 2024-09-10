@@ -12,7 +12,7 @@
                 <a class="nav-link" href="{% url "book" %}">Book a Ride</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">By Bookings</a>
+                <a class="nav-link" href="{% url "mybookings" %}">My Bookings</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Support</a>
@@ -25,6 +25,8 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{% url "emp_prof" %}">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{% url "book_history" %}">History</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url "logout" %}">Logout</a></li>
               </ul>

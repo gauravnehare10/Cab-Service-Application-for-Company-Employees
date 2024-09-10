@@ -1,0 +1,21 @@
+{% extends "cabserv/layouts/main.html" %}
+
+{% block content %}
+<table class='table table-striped'>
+    <tr>
+        <th>Cab Number</th>
+        <th>Cab Model</th>
+        <th>Driver Name</th>
+        <th>Driver Phone</th>
+    </tr>
+    
+    {% for cab in cabinfo %}
+    <tr>
+        <td>{{cab.cab_number}}</td>
+        <td>{{cab.model}}</td>
+        <td>{{cab.driver_name}}</td>
+        <td>{{cab.driver_phone}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

@@ -4,3 +4,4 @@ from cabservice.models import *
 
 admin.site.register(Employee)
 admin.site.register(CabInfo)
+admin.site.register(Booking)

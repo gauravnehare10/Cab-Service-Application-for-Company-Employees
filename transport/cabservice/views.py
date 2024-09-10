@@ -9,6 +9,16 @@ from datetime import date
 def home(request):
     return render(request, 'cabserv/index.html')
 
+def registerview(request):
+    form = CustomUserForm()
+    if request.method == "POST":
+        form = CustomUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            msg = 'Registered Successfully! Login to Continue...'
+            return redirect('/login')
+    return render(request, 'cabserv/auth/register.html', context={'form': form})
+
 def loginview(request):
     if request.method == "POST":
         uname = request.POST.get('username')
@@ -22,16 +32,6 @@ def loginview(request):
             msg = 'Invalid username or password'
             return redirect('/login')
     return render(request, 'cabserv/auth/login.html')
-
-def registerview(request):
-    form = CustomUserForm()
-    if request.method == "POST":
-        form = CustomUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            msg = 'Registered Successfully! Login to Continue...'
-            return redirect('/login')
-    return render(request, 'cabserv/auth/register.html', context={'form': form})
 
 def logoutview(request):
     if request.user.is_authenticated:
@@ -55,7 +55,7 @@ def update_profile(request):
             employee = form.save(commit=False)
             employee.user = request.user
             employee.save()
-            return redirect('emp_prof')
+            return redirect('/emp_prof')
         else:
             print(form.errors)
     else:
@@ -77,16 +77,18 @@ def booking(request):
                 pickup_slot = form.cleaned_data['pickup_slot']
                 pincode = employee.postal_code
                 
+                user_existing_booking = Booking.objects.filter(employee_id = employee.employee_id)
+                if user_existing_booking.exists():
+                    msg = 'You have already booked a cab for this date.'
+                    return redirect('emp_prof')
+
                 existing_bookings = Booking.objects.filter(
                     employee__postal_code=pincode,
                     pickup_slot=pickup_slot,
                     booking_date = date.today()
-                ).count()
-                
-                if cab.availability_status != 'available':
-                    print(f'Cab {cab.cab_number} is not available.')
-                    return redirect('book')
-                elif existing_bookings < 4:
+                )
+
+                if existing_bookings.count() < 4:
                     booking = form.save(commit=False)
                     booking.employee = employee
                     booking.save()
@@ -95,6 +97,23 @@ def booking(request):
                 else:
                     print(date.today())
                     print('No more than 4 employees can book a cab from the same area in the same time slot.')
-                return redirect('book')
+                return redirect('/book')
             except:
-                return redirect('update_profile')
+                return redirect('/update_profile')
+            
+@login_required
+def mybooking_view(request):
+    employee = Employee.objects.get(user=request.user)
+    mybooking = Booking.objects.filter(employee_id= employee.id)
+    return render(request, 'cabserv/mybooking.html', context={'mybooking': mybooking})
+
+@login_required
+def book_history(request):
+    employee = Employee.objects.get(user=request.user)
+    book_hist = Booking.objects.filter(employee_id= employee.id)
+    return render(request, 'cabserv/book_hist.html', context={'book_hist': book_hist})
+
+@login_required
+def cabdetail_view(request, id):
+    cabinfo = CabInfo.objects.filter(id = id)
+    return render(request, 'cabserv/cabdetail.html', context={'cabinfo': cabinfo})

@@ -1,0 +1,28 @@
+{% extends "cabserv/layouts/main.html" %}
+{% block content %}
+<table class='table table-striped'>
+    <tr>
+        <th>Booking Date</th>
+        <th>Pickup Slot</th>
+        <th>Return Slot</th>
+        <th>Pickup Location</th>
+        <th>Dropoff Location</th>
+        <th>Status</th>
+        <th>Cab Details</th>
+    </tr>
+    
+    {% for booking in book_hist %}
+    {% if booking.status == "completed" or booking.status == "canceled" %}
+    <tr>
+        <td>{{booking.booking_date}}</td>
+        <td>{{booking.pickup_slot}}</td>
+        <td>{{booking.return_slot}}</td>
+        <td>{{booking.pickup_location}}</td>
+        <td>{{booking.dropoff_location}}</td>
+        <td>{{booking.status}}</td>
+        <td><a href="{% url "cabdetail" booking.cab_id %}">Click Here</a></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+{% endblock content %}
