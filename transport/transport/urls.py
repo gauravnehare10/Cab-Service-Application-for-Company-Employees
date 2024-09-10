@@ -29,5 +29,6 @@ urlpatterns = [
     path('book/', booking, name='book'),
     path('mybookings/', mybooking_view, name='mybookings'),
     path('book_history/', book_history, name='book_history'),
-    path('cabdetail/<int:id>', cabdetail_view, name='cabdetail'),
+    path('cancel_booking/<int:id>', cancel_booking, name='cancel_booking'),
+    path('cabdetail/<int:cab_id>', cabdetail_view, name='cabdetail'),
 ]

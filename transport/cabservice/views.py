@@ -114,6 +114,12 @@ def book_history(request):
     return render(request, 'cabserv/book_hist.html', context={'book_hist': book_hist})
 
 @login_required
-def cabdetail_view(request, id):
-    cabinfo = CabInfo.objects.filter(id = id)
+def cancel_booking(request, id):
+    booking = Booking.objects.filter(id=id)
+    booking.update(status="cancelled")
+    return redirect("mybookings")
+
+@login_required
+def cabdetail_view(request, cab_id):
+    cabinfo = CabInfo.objects.filter(id = cab_id)
     return render(request, 'cabserv/cabdetail.html', context={'cabinfo': cabinfo})

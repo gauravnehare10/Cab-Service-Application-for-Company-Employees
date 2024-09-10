@@ -12,7 +12,7 @@
     </tr>
     
     {% for booking in book_hist %}
-    {% if booking.status == "completed" or booking.status == "canceled" %}
+    {% if booking.status == "completed" or booking.status == "cancelled" %}
     <tr>
         <td>{{booking.booking_date}}</td>
         <td>{{booking.pickup_slot}}</td>
