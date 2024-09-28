@@ -73,3 +73,13 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking by {self.employee} on {self.booking_date} - Status: {self.status}"
+
+class BookingHistory(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    cab = models.ForeignKey(CabInfo, on_delete=models.SET_NULL, null=True, blank=True)
+    booking_date = models.DateField(auto_now_add=True)
+    pickup_slot = models.CharField(max_length=20)
+    return_slot = models.CharField(max_length=20)
+    pickup_location = models.CharField(max_length=255)
+    dropoff_location = models.CharField(max_length=255, editable=False)
+    status = models.CharField(max_length=10)

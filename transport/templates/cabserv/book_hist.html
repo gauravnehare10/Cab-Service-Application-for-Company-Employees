@@ -12,7 +12,6 @@
     </tr>
     
     {% for booking in book_hist %}
-    {% if booking.status == "completed" or booking.status == "cancelled" %}
     <tr>
         <td>{{booking.booking_date}}</td>
         <td>{{booking.pickup_slot}}</td>
@@ -22,7 +21,6 @@
         <td>{{booking.status}}</td>
         <td><a href="{% url "cabdetail" booking.cab_id %}">Click Here</a></td>
     </tr>
-    {% endif %}
     {% endfor %}
 </table>
 {% endblock content %}
